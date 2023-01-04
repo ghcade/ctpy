@@ -6,6 +6,7 @@ import urllib.parse
 import urllib.request
 import requests
 import json
+import time
 
 from sslyze import (
     Scanner,
@@ -56,15 +57,17 @@ def _print_failed_scan_command_attempt(scan_command_attempt: ScanCommandAttempt)
     )
 
 
-def main(taget) -> None:
-    print("Starting the Scans...")
+def main(taget, tport) -> None:
+    now_time = time.strftime(r"%Y-%m-%d %H:%M", time.localtime())
+    print("Starting the Scan at {} CST".format(now_time))
+    #print("Starting the Scans...")
     date_scans_started = datetime.utcnow()
 
     # First create the scan requests for each server that we want to scan
     try:
         all_scan_requests = [
             ServerScanRequest(
-                server_location=ServerNetworkLocation(hostname=taget)),
+                server_location=ServerNetworkLocation(hostname=taget, port=tport)),
         ]
     except ServerHostnameCouldNotBeResolved:
         # Handle bad input ie. invalid hostnames
@@ -207,4 +210,5 @@ def main(taget) -> None:
 
 if __name__ == "__main__":
     taget = sys.argv[1]
-    main(taget)
+    tport = sys.argv[2]
+    main(taget, tport)
