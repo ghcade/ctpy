@@ -1,2 +1,1 @@
-# ctpy
-Check TLS with Python
+# ctpy - Check TLS with Python
